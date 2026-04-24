@@ -7,7 +7,7 @@ import org.springframework.http.HttpStatus;
 @Getter
 @RequiredArgsConstructor
 public enum ErrorCode {
-
+    CURRENCY_NOT_SUPPORTED("BAD_REQUEST", "지원하지 않는 통화", HttpStatus.BAD_REQUEST)
     ;
 
     private final String code;

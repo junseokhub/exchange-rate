@@ -1,21 +1,28 @@
 package com.dev.forex.domain.order.dto;
 
-import jakarta.validation.constraints.NotBlank;
-import jakarta.validation.constraints.NotNull;
-import jakarta.validation.constraints.Positive;
+import com.dev.forex.domain.order.entity.Order;
 
 import java.math.BigDecimal;
+import java.time.LocalDateTime;
 
 public record OrderResponse(
-        @NotNull(message = "외화 금액은 필수")
-        @Positive(message = "외화 금액은 양수")
-        BigDecimal forexAmount,
-
-        @NotBlank(message = "출발 통화는 필수")
+        Long id,
+        BigDecimal fromAmount,
         String fromCurrency,
-
-        @NotBlank(message = "도착 통화는 필수")
-        String toCurrency
-
+        BigDecimal toAmount,
+        String toCurrency,
+        BigDecimal tradeRate,
+        LocalDateTime dateTime
 ) {
+    public static OrderResponse from(Order order) {
+        return new OrderResponse(
+                order.getId(),
+                order.getFromAmount(),
+                order.getFromCurrency().name(),
+                order.getToAmount(),
+                order.getToCurrency().name(),
+                order.getTradeRate(),
+                order.getCreatedAt()
+        );
+    }
 }

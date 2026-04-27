@@ -23,7 +23,7 @@ public class DefaultOrderService implements OrderService {
 
     @Override
     @Transactional
-    public Order crateOrder(BigDecimal forexAmount, String fromCurrency, String toCurrency) {
+    public Order createOrder(BigDecimal forexAmount, String fromCurrency, String toCurrency) {
         CurrencyType from = CurrencyType.from(fromCurrency);
         CurrencyType to = CurrencyType.from(toCurrency);
 

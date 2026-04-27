@@ -6,6 +6,6 @@ import java.math.BigDecimal;
 import java.util.List;
 
 public interface OrderService {
-    Order crateOrder(BigDecimal forexAmount, String fromCurrency, String toCurrency);
+    Order createOrder(BigDecimal forexAmount, String fromCurrency, String toCurrency);
     List<Order> getOrderList();
 }

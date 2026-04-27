@@ -9,6 +9,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 import java.math.BigDecimal;
+import java.math.RoundingMode;
 
 @Getter
 @Entity
@@ -46,4 +47,31 @@ public class Order extends BaseEntity {
         this.tradeRate = tradeRate;
     }
 
+    public static Order buy(CurrencyType toCurrency, BigDecimal forexAmount, BigDecimal buyRate) {
+        BigDecimal krwAmount = forexAmount
+                .multiply(buyRate)
+                .divide(BigDecimal.valueOf(toCurrency.getBaseUnit()), 0, RoundingMode.FLOOR);
+
+        return Order.builder()
+                .fromCurrency(CurrencyType.KRW)
+                .toCurrency(toCurrency)
+                .fromAmount(krwAmount)
+                .toAmount(forexAmount)
+                .tradeRate(buyRate)
+                .build();
+    }
+
+    public static Order sell(CurrencyType fromCurrency, BigDecimal forexAmount, BigDecimal sellRate) {
+        BigDecimal krwAmount = forexAmount
+                .multiply(sellRate)
+                .divide(BigDecimal.valueOf(fromCurrency.getBaseUnit()), 0, RoundingMode.FLOOR);
+
+        return Order.builder()
+                .fromCurrency(fromCurrency)
+                .toCurrency(CurrencyType.KRW)
+                .fromAmount(forexAmount)
+                .toAmount(krwAmount)
+                .tradeRate(sellRate)
+                .build();
+    }
 }

@@ -9,7 +9,9 @@ import org.springframework.http.HttpStatus;
 public enum ErrorCode {
     CURRENCY_NOT_SUPPORTED("BAD_REQUEST", "지원하지 않는 통화", HttpStatus.BAD_REQUEST),
     EXTERNAL_API_ERROR("SERVICE_UNAVAILABLE", "외부 연동 오류 발생", HttpStatus.SERVICE_UNAVAILABLE),
-    EXCHANGE_RATE_NOT_FOUND("NOT_FOUND", "환율 정보를 찾을 수 없음", HttpStatus.NOT_FOUND);
+    EXCHANGE_RATE_NOT_FOUND("NOT_FOUND", "환율 정보를 찾을 수 없음", HttpStatus.NOT_FOUND),
+    INVALID_ORDER_REQUEST("BAD_REQUEST", "잘못된 주문 요청", HttpStatus.BAD_REQUEST),
+    ;
 
 
     private final String code;

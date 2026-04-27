@@ -49,5 +49,4 @@ public class ExchangeRateHistory {
         this.sellRate = tradeStanRate.multiply(SELL_SPREAD_RATE).setScale(2, RoundingMode.HALF_UP);
         this.collectedAt = LocalDateTime.now();
     }
-
 }

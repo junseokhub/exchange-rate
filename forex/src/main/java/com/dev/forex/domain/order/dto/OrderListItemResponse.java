@@ -5,7 +5,8 @@ import com.dev.forex.domain.order.entity.Order;
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
 
-public record OrderResponse(
+public record OrderListItemResponse(
+        Long id,
         BigDecimal fromAmount,
         String fromCurrency,
         BigDecimal toAmount,
@@ -13,8 +14,9 @@ public record OrderResponse(
         BigDecimal tradeRate,
         LocalDateTime dateTime
 ) {
-    public static OrderResponse from(Order order) {
-        return new OrderResponse(
+    public static OrderListItemResponse from(Order order) {
+        return new OrderListItemResponse(
+                order.getId(),
                 order.getFromAmount(),
                 order.getFromCurrency().name(),
                 order.getToAmount(),

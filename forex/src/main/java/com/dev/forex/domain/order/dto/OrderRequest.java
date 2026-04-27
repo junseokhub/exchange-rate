@@ -16,6 +16,5 @@ public record OrderRequest(
 
         @NotBlank(message = "도착 통화는 필수")
         String toCurrency
-
 ) {
 }

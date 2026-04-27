@@ -3,7 +3,12 @@
 주요 4개 통화(USD,JPY,CNY,EUR) 에 대해 실시간으로 변동하는 환율 정보를 데이터베이스에 이력으로 관리하고, 사용자가 요청한 외화 금액을 현재 환율에 맞춰 원화로 환산하여 주문을 처리하는 백엔드 시스템을 구현합니다.
 
 ## 실행 방법
-- yml을 따로 분리하지 않았기 때문에 실행하시면 바로 환율 정보 수집이 시작됩니다.
+- ./gradlew bootRun
+- 앱 실행 시 즉시 환율 수집 시작 (이후 1분마다 반복)
+- API: http://localhost:8080
+- H2 콘솔: http://localhost:8080/h2-console (활성화 시)
+  - url: dbc:h2:mem:forexdb
+  - user: sa
 
 ## 기술 스택
 
@@ -12,6 +17,10 @@
 - Spring Batch, Spring Scheduler
 - Resilience4j CircuitBreaker, Retry
 - RestClient
+
+## 테스트 코드
+- 단위 테스트 (java 순수코드 Order, ExchangeRate)
+- 통합 테스트 (ExchangeRateIntegrationTest, OrderIntegrationTest)
 
 ## API (과제 요구사항과 동일하게 처리했습니다.)
 
@@ -79,3 +88,7 @@ GET /order/list
 - 요청이 몰리면 스레드 풀이 다 차서 다른 API까지 응답이 느려질 수 있습니다. 
 - CircuitBreaker는 장애를 감지하면 차단하고 Mock 데이터로 전환하기 때문에 외부 API 장애가 시스템 전체로 번지지 않습니다.
 - Retry도 같은 라이브러리에서 관리할 수 있어서 설정을 한 곳에서 관리할 수 있다는 것도 이유 중 하나입니다.
+
+**Test**
+- 요구 사항엔 없었지만 기본적인 테스트 코드는 필요하다 생각하여 작성했습니다.
+- 현재는 인메모리 기반이라 인메모리 안에서 테스트가 동작하지만 추후 TestContainer등을 사용하면 실무와 같은 환경에서 테스트 가능하다고 생각합니다.

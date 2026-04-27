@@ -38,12 +38,15 @@ public class ExchangeRateHistory {
 
     //전신환 매입율(buyRate): 매매기준율 × 1.05 (5% 가산)
     //전신환 매도율(sellRate): 매매기준율 × 0.95 (5% 차감)
+    private static final BigDecimal BUY_SPREAD_RATE = new BigDecimal("1.05");
+    private static final BigDecimal SELL_SPREAD_RATE = new BigDecimal("0.95");
+
     @Builder
     private ExchangeRateHistory(CurrencyType currency, BigDecimal tradeStanRate) {
         this.currency = currency;
-        this.buyRate = tradeStanRate.multiply(new BigDecimal("1.05")).setScale(2, RoundingMode.HALF_UP);
+        this.buyRate = tradeStanRate.multiply(BUY_SPREAD_RATE).setScale(2, RoundingMode.HALF_UP);
         this.tradeStanRate = tradeStanRate;
-        this.sellRate = tradeStanRate.multiply(new BigDecimal("0.95")).setScale(2, RoundingMode.HALF_UP);
+        this.sellRate = tradeStanRate.multiply(SELL_SPREAD_RATE).setScale(2, RoundingMode.HALF_UP);
         this.collectedAt = LocalDateTime.now();
     }
 

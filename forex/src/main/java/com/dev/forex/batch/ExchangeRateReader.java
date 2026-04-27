@@ -7,6 +7,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.batch.core.configuration.annotation.StepScope;
 import org.springframework.batch.item.ItemReader;
 
+import java.util.Iterator;
 import java.util.List;
 
 @Slf4j
@@ -15,20 +16,15 @@ import java.util.List;
 public class ExchangeRateReader implements ItemReader<ExchangeRateHistory> {
 
     private final ExchangeRateCollector exchangeRateCollector;
-    private List<ExchangeRateHistory> histories;
-    private int index = 0;
+    private Iterator<ExchangeRateHistory> iterator;
 
     @Override
     public ExchangeRateHistory read() {
-        if (histories == null) {
-            histories = exchangeRateCollector.collect();
+        if (iterator == null) {
+            List<ExchangeRateHistory> histories = exchangeRateCollector.collect();
             log.info("환율 데이터 수집 완료: {}건", histories.size());
+            iterator = histories.iterator();
         }
-        if (index < histories.size()) {
-            return histories.get(index++);
-        }
-        histories = null;
-        index = 0;
-        return null;
+        return iterator.hasNext() ? iterator.next() : null;
     }
 }

@@ -34,3 +34,23 @@ logging:
 external:
   api:
     url: ${EXTERNAL_API_URL:https://open.er-api.com/v6/latest/KRW}
+
+  batch:
+    job:
+      enabled: false
+    jdbc:
+      initialize-schema: always
+
+resilience4j:
+  circuitbreaker:
+    instances:
+      exchangeRate:
+        sliding-window-size: 10
+        failure-rate-threshold: 50
+        wait-duration-in-open-state: 60s
+        permitted-number-of-calls-in-half-open-state: 3
+  retry:
+    instances:
+      exchangeRate:
+        max-attempts: 3
+        wait-duration: 2s

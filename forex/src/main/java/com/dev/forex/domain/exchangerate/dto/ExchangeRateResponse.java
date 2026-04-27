@@ -1,4 +1,4 @@
-package com.dev.forex.domain.dto;
+package com.dev.forex.domain.exchangerate.dto;
 
 import com.dev.forex.domain.exchangerate.entity.ExchangeRateHistory;
 

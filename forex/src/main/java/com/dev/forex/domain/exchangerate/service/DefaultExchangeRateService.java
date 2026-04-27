@@ -11,6 +11,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Arrays;
 import java.util.List;
+import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
@@ -23,9 +24,9 @@ public class DefaultExchangeRateService implements ExchangeRateService {
     public List<ExchangeRateHistory> getLatestAll() {
         return Arrays.stream(CurrencyType.values())
                 .filter(currency -> currency != CurrencyType.KRW)
-                .map(currency -> exchangeRateHistoryRepository
-                        .findTopByCurrencyOrderByCollectedAtDesc(currency)
-                        .orElseThrow(() -> new BusinessException(ErrorCode.EXCHANGE_RATE_NOT_FOUND)))
+                .map(exchangeRateHistoryRepository::findTopByCurrencyOrderByCollectedAtDesc)
+                .filter(Optional::isPresent)
+                .map(Optional::get)
                 .toList();
     }
 

@@ -10,7 +10,7 @@ import java.util.Arrays;
 @Getter
 @RequiredArgsConstructor
 public enum CurrencyType {
-
+    KRW(1),
     USD(1),
     JPY(100),
     CNY(1),

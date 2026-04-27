@@ -41,9 +41,9 @@ public class ExchangeRateHistory {
     @Builder
     private ExchangeRateHistory(CurrencyType currency, BigDecimal tradeStanRate) {
         this.currency = currency;
-        this.buyRate = buyRate.multiply(new BigDecimal("1.05")).setScale(2, RoundingMode.HALF_UP);;
+        this.buyRate = tradeStanRate.multiply(new BigDecimal("1.05")).setScale(2, RoundingMode.HALF_UP);
         this.tradeStanRate = tradeStanRate;
-        this.sellRate = sellRate.multiply(new BigDecimal("0.95")).setScale(2, RoundingMode.HALF_UP);;
+        this.sellRate = tradeStanRate.multiply(new BigDecimal("0.95")).setScale(2, RoundingMode.HALF_UP);
         this.collectedAt = LocalDateTime.now();
     }
 

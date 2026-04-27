@@ -30,3 +30,7 @@ logging:
   level:
     com.dev.forex: DEBUG
     org.springframework.batch: INFO
+
+external:
+  api:
+    url: ${EXTERNAL_API_URL:https://open.er-api.com/v6/latest/KRW}

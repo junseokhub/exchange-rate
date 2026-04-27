@@ -47,30 +47,31 @@ public class Order extends BaseEntity {
         this.tradeRate = tradeRate;
     }
 
-    public static Order buy(CurrencyType toCurrency, BigDecimal forexAmount, BigDecimal buyRate) {
-        BigDecimal krwAmount = forexAmount
-                .multiply(buyRate)
-                .divide(BigDecimal.valueOf(toCurrency.getBaseUnit()), 0, RoundingMode.FLOOR);
+    private static final CurrencyType BASE_CURRENCY = CurrencyType.KRW;
 
+
+    private static BigDecimal calculateKrwAmount(BigDecimal forexAmount, BigDecimal rate, CurrencyType currency) {
+        return forexAmount
+                .multiply(rate)
+                .divide(BigDecimal.valueOf(currency.getBaseUnit()), 0, RoundingMode.FLOOR);
+    }
+
+    public static Order buy(CurrencyType toCurrency, BigDecimal forexAmount, BigDecimal buyRate) {
         return Order.builder()
-                .fromCurrency(CurrencyType.KRW)
+                .fromCurrency(BASE_CURRENCY)
                 .toCurrency(toCurrency)
-                .fromAmount(krwAmount)
+                .fromAmount(calculateKrwAmount(forexAmount, buyRate, toCurrency))
                 .toAmount(forexAmount)
                 .tradeRate(buyRate)
                 .build();
     }
 
     public static Order sell(CurrencyType fromCurrency, BigDecimal forexAmount, BigDecimal sellRate) {
-        BigDecimal krwAmount = forexAmount
-                .multiply(sellRate)
-                .divide(BigDecimal.valueOf(fromCurrency.getBaseUnit()), 0, RoundingMode.FLOOR);
-
         return Order.builder()
                 .fromCurrency(fromCurrency)
-                .toCurrency(CurrencyType.KRW)
+                .toCurrency(BASE_CURRENCY)
                 .fromAmount(forexAmount)
-                .toAmount(krwAmount)
+                .toAmount(calculateKrwAmount(forexAmount, sellRate, fromCurrency))
                 .tradeRate(sellRate)
                 .build();
     }

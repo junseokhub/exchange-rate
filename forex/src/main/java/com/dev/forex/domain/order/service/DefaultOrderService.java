@@ -27,12 +27,7 @@ public class DefaultOrderService implements OrderService {
         CurrencyType from = CurrencyType.from(fromCurrency);
         CurrencyType to = CurrencyType.from(toCurrency);
 
-        if (from == to) {
-            throw new BusinessException(ErrorCode.INVALID_ORDER_REQUEST);
-        }
-        if (from != CurrencyType.KRW && to != CurrencyType.KRW) {
-            throw new BusinessException(ErrorCode.INVALID_ORDER_REQUEST);
-        }
+        validateOrder(from, to);
 
         CurrencyType foreignCurrency = from == CurrencyType.KRW ? to : from;
         ExchangeRateHistory latestRate = exchangeRateService.getLatestByCurrency(foreignCurrency);
@@ -48,5 +43,14 @@ public class DefaultOrderService implements OrderService {
     @Transactional(readOnly = true)
     public List<Order> getOrderList() {
         return orderRepository.findAll();
+    }
+
+    private void validateOrder(CurrencyType fromCurrency, CurrencyType toCurrency) {
+        if (fromCurrency == toCurrency) {
+            throw new BusinessException(ErrorCode.INVALID_ORDER_REQUEST);
+        }
+        if (fromCurrency != CurrencyType.KRW && toCurrency != CurrencyType.KRW) {
+            throw new BusinessException(ErrorCode.INVALID_ORDER_REQUEST);
+        }
     }
 }

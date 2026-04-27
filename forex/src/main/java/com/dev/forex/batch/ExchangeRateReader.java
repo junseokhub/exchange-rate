@@ -4,12 +4,14 @@ import com.dev.forex.domain.exchangerate.entity.ExchangeRateHistory;
 import com.dev.forex.external.ExchangeRateCollector;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.batch.core.configuration.annotation.StepScope;
 import org.springframework.batch.item.ItemReader;
 
 import java.util.List;
 
 @Slf4j
 @RequiredArgsConstructor
+@StepScope
 public class ExchangeRateReader implements ItemReader<ExchangeRateHistory> {
 
     private final ExchangeRateCollector exchangeRateCollector;

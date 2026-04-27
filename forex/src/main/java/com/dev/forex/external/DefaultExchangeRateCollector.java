@@ -6,7 +6,9 @@ import com.dev.forex.config.properties.ExternalApiProperties;
 import com.dev.forex.domain.currency.CurrencyType;
 import com.dev.forex.domain.exchangerate.entity.ExchangeRateHistory;
 import io.github.resilience4j.circuitbreaker.annotation.CircuitBreaker;
+import io.github.resilience4j.retry.RetryRegistry;
 import io.github.resilience4j.retry.annotation.Retry;
+import jakarta.annotation.PostConstruct;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
@@ -24,10 +26,18 @@ public class DefaultExchangeRateCollector implements ExchangeRateCollector{
 
     private final RestClient restClient;
     private final ExternalApiProperties externalApiProperties;
+    private final RetryRegistry retryRegistry;
+
+    @PostConstruct
+    public void init() {
+        retryRegistry.retry("exchangeRate")
+                .getEventPublisher()
+                .onRetry(e -> log.warn("외부 API 재시도중: {} 회", e.getNumberOfRetryAttempts()));
+    }
 
     @Override
-    @CircuitBreaker(name = "exchangeRate", fallbackMethod = "fallback")
     @Retry(name = "exchangeRate")
+    @CircuitBreaker(name = "exchangeRate", fallbackMethod = "fallback")
     public List<ExchangeRateHistory> collect() {
         ExternalRateResponse response = restClient.get()
                 .uri(externalApiProperties.url())

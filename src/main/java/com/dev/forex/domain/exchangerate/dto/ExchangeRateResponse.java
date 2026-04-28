@@ -18,7 +18,7 @@ public record ExchangeRateResponse(
                 history.getBuyRate(),
                 history.getTradeStanRate(),
                 history.getSellRate(),
-                history.getCollectedAt()
+                history.getCreatedAt()
         );
     }
 }

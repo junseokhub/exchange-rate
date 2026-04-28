@@ -24,7 +24,7 @@ public class DefaultExchangeRateService implements ExchangeRateService {
     public List<ExchangeRateHistory> getLatestAll() {
         return Arrays.stream(CurrencyType.values())
                 .filter(currency -> currency != CurrencyType.KRW)
-                .map(exchangeRateHistoryRepository::findTopByCurrencyOrderByCollectedAtDesc)
+                .map(exchangeRateHistoryRepository::findTopByCurrencyOrderByCreatedAtDesc)
                 .filter(Optional::isPresent)
                 .map(Optional::get)
                 .toList();
@@ -34,7 +34,7 @@ public class DefaultExchangeRateService implements ExchangeRateService {
     @Transactional(readOnly = true)
     public ExchangeRateHistory getLatestByCurrency(CurrencyType currencyType) {
         return exchangeRateHistoryRepository
-                .findTopByCurrencyOrderByCollectedAtDesc(currencyType)
+                .findTopByCurrencyOrderByCreatedAtDesc(currencyType)
                 .orElseThrow(() -> new BusinessException(ErrorCode.EXCHANGE_RATE_NOT_FOUND));
     }
 

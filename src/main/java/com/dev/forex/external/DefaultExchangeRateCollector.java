@@ -77,7 +77,7 @@ public class DefaultExchangeRateCollector implements ExchangeRateCollector{
     }
 
     private BigDecimal mockRateData(CurrencyType currency) {
-        // 26년 4월 27일 기준 +- 0.5 범위
+        // 26년 4월 27일 기준 +-50 범위
         return switch (currency) {
             case USD -> BigDecimal.valueOf(1470 + (Math.random() - 0.5) * 100);
             case JPY -> BigDecimal.valueOf(924 + (Math.random() - 0.5) * 100);

@@ -9,5 +9,5 @@ import java.util.Optional;
 public interface ExchangeRateHistoryRepository extends JpaRepository<ExchangeRateHistory, Long> {
 
     //  특정 통화 최신 환율 상세 조회
-    Optional<ExchangeRateHistory> findTopByCurrencyOrderByCollectedAtDesc(CurrencyType currency);
+    Optional<ExchangeRateHistory> findTopByCurrencyOrderByCreatedAtDesc(CurrencyType currency);
 }

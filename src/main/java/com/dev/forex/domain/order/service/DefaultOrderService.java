@@ -47,10 +47,10 @@ public class DefaultOrderService implements OrderService {
 
     private void validateOrder(CurrencyType fromCurrency, CurrencyType toCurrency) {
         if (fromCurrency == toCurrency) {
-            throw new BusinessException(ErrorCode.INVALID_ORDER_REQUEST);
+            throw new BusinessException(ErrorCode.SAME_CURRENCY);
         }
         if (fromCurrency != CurrencyType.KRW && toCurrency != CurrencyType.KRW) {
-            throw new BusinessException(ErrorCode.INVALID_ORDER_REQUEST);
+            throw new BusinessException(ErrorCode.REQUIRED_KRW_CURRENCY);
         }
     }
 }

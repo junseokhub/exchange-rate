@@ -25,6 +25,8 @@ spring:
   batch:
     job:
       enabled: false
+    jdbc:
+      initialize-schema: always
 
 logging:
   level:
@@ -34,12 +36,6 @@ logging:
 external:
   api:
     url: ${EXTERNAL_API_URL:https://open.er-api.com/v6/latest/KRW}
-
-  batch:
-    job:
-      enabled: false
-    jdbc:
-      initialize-schema: always
 
 resilience4j:
   circuitbreaker:
